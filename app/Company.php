@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    //
+    protected $fillable = ['name', 'address', 'email', 'website'];
 }
 
 /*
@@ -37,4 +37,21 @@ $company = Company::find(1)
 $company->delete()
 Company::destroy(11)
 Company::destroy([7, 8, 9])
+
+# Mass assignment
+
+## create
+
+$data = [
+    "name" => "Company 3",
+    "address" => "Address company 3",
+    "email" => "company3@email.com",
+    "website" => "https://company3.com",
+    "contact" => "contact company 3"
+];
+Company::create($data)
+
+## update
+$company = Company::first()
+$company->update($data)
 */
