@@ -11,7 +11,7 @@ class ContactController extends Controller
     public function index()
     {
         $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
-        $contacts = Contact::orderBy('first_name', 'asc')->where(function ($query) {
+        $contacts = Contact::orderBy('id', 'desc')->where(function ($query) {
             if ($companyId = request('company_id')) {
                 $query->where('company_id', $companyId);
             }
@@ -29,7 +29,17 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->except('first_name', 'last_name'));
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            'company_id' => 'required|exists:companies,id',
+        ]);
+
+        Contact::create($request->all());
+
+        return redirect()->route('contacts.index')->with('message', "Contact has been added successfully");
     }
 
     public function show($id)
