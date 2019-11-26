@@ -64,7 +64,7 @@
         <div class="col-md-9">
           <select name="company_id" id="company_id" class="form-control @error('company_id') is-invalid @enderror">
             @foreach ($companies as $id => $name)
-                <option {{ $id === old('company_id', $contact->company_id) ? 'selected' : '' }} value="{{ $id }}">{{ $name }}</option>
+                <option {{ $id == old('company_id', $contact->company_id) ? 'selected' : '' }} value="{{ $id }}">{{ $name }}</option>
             @endforeach
           </select>
           @error('company_id')
