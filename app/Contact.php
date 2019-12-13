@@ -2,15 +2,18 @@
 
 namespace App;
 
-use App\Scopes\FilterScope;
-use App\Scopes\ContactSearchScope;
+use App\Scopes\FilterSearchScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+    use FilterSearchScope;
+    
     protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
 
     public $filterColumns = ['company_id'];
+    
+    public $searchColumns = ['first_name', 'last_name', 'email', 'company.name'];
 
     public function company()
     {
@@ -20,13 +23,5 @@ class Contact extends Model
     public function scopeLatestFirst($query)
     {
         return $query->orderBy('id', 'desc');
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new FilterScope);
-        static::addGlobalScope(new ContactSearchScope);
     }
 }
