@@ -15,10 +15,9 @@ class ContactController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
-        $companies = $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
         // \DB::enableQueryLog();
-        $contacts = $user->contacts()->latestFirst()->paginate(10);
+        $contacts = auth()->user()->contacts()->latestFirst()->paginate(10);
         // dd(\DB::getQueryLog());
         return view('contacts.index', compact('contacts', 'companies'));
     }
@@ -26,7 +25,7 @@ class ContactController extends Controller
     public function create()
     {
         $contact = new Contact();
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
 
         return view('contacts.create', compact('companies', 'contact'));
     }
@@ -48,7 +47,7 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
 
         return view('contacts.edit', compact('companies', 'contact'));
     }
