@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Contact;
 use App\Company;
+use App\Contact;
+use Illuminate\Http\Request;
+use App\Http\Requests\ContactRequest;
 
 class ContactController extends Controller
 {
@@ -30,16 +31,8 @@ class ContactController extends Controller
         return view('contacts.create', compact('companies', 'contact'));
     }
 
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'company_id' => 'required|exists:companies,id',
-        ]);
-
         $request->user()->contacts()->create($request->all());
 
         return redirect()->route('contacts.index')->with('message', "Contact has been added successfully");
@@ -52,16 +45,8 @@ class ContactController extends Controller
         return view('contacts.edit', compact('companies', 'contact'));
     }
 
-    public function update(Contact $contact, Request $request)
+    public function update(Contact $contact, ContactRequest $request)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'company_id' => 'required|exists:companies,id',
-        ]);
-
         $contact->update($request->all());
 
         return redirect()->route('contacts.index')->with('message', "Contact has been updated successfully");
