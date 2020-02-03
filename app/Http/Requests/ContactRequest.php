@@ -13,8 +13,6 @@ class ContactRequest extends FormRequest
      */
     public function authorize()
     {
-        // dd($this->route('contact'));
-        // dd($this->method());
         return true;
     }
 
