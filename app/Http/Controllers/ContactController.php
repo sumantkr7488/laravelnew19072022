@@ -18,7 +18,7 @@ class ContactController extends Controller
     {
         $companies = Company::userCompanies();
         // \DB::enableQueryLog();
-        $contacts = auth()->user()->contacts()->latestFirst()->paginate(10);
+        $contacts = auth()->user()->contacts()->with('company')->latestFirst()->paginate(100);
         // dd(\DB::getQueryLog());
         return view('contacts.index', compact('contacts', 'companies'));
     }
