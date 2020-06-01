@@ -25,3 +25,6 @@ Auth::routes(['verify' => true]);
 Route::get('/dashboard', 'HomeController@index')->name('home');
 
 Route::get('/settings/account', 'Settings\AccountController@index');
+
+Route::get('/settings/profile', 'Settings\ProfileController@edit')->name('settings.profile.edit');
+Route::put('/settings/profile', 'Settings\ProfileController@update')->name('settings.profile.update');
