@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -50,5 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function fullName()
     {
         return $this->first_name . " " . $this->last_name;
+    }
+
+    public function profileUrl()
+    {
+        return Storage::exists($this->profile_picture) ? Storage::url($this->profile_picture) : 'http://via.placeholder.com/150x150';
     }
 }
